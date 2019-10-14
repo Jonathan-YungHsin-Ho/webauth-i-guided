@@ -1,6 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const bcrypt = require('bcryptjs');
 
 const db = require('./database/dbConfig.js');
 const Users = require('./users/users-model.js');
@@ -50,6 +51,23 @@ server.get('/api/users', (req, res) => {
       res.json(users);
     })
     .catch(err => res.send(err));
+});
+
+server.get('/hash', (req, res) => {
+  console.log(req.headers);
+
+  // const credentials = {};
+
+  // credentials.password = 'test';
+
+  const hash = bcrypt.hashSync(req.headers.password, 14);
+
+  credentials.password = hash;
+
+  res.json({ password: credentials.password });
+  // read a password from Authorization header
+  // return an obj with password hashed using bcryptjs
+  // { hash: '970(&(:OHKJHIY*HJKH(*^)*&YLKJBLKJGHIUGH(*P' }
 });
 
 const port = process.env.PORT || 5000;
