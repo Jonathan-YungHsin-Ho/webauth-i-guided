@@ -54,13 +54,11 @@ server.get('/api/users', (req, res) => {
 });
 
 server.get('/hash', (req, res) => {
-  console.log(req.headers);
+  console.log(req.headers.password);
 
-  // const credentials = {};
+  const credentials = req.headers;
 
-  // credentials.password = 'test';
-
-  const hash = bcrypt.hashSync(req.headers.password, 14);
+  const hash = bcrypt.hashSync(credentials.password, 14);
 
   credentials.password = hash;
 
